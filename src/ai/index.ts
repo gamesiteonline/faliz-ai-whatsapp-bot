@@ -27,12 +27,23 @@ export class AIManager {
             return await this.gemini.handleMultimodal(prompt, options.media.buffer, options.media.mimeType);
         }
 
-        if (provider === 'deepseek' && this.deepseek) {
-            return await this.deepseek.generateResponse(prompt);
-        } else if (this.gemini) {
-            return await this.gemini.generateResponse(prompt);
+        try {
+            if (provider === 'deepseek' && this.deepseek) {
+                return await this.deepseek.generateResponse(prompt);
+            } else if (this.gemini) {
+                return await this.gemini.generateResponse(prompt);
+            }
+        } catch (error) {
+            logger.error({ err: error }, `Primary provider ${provider} failed, trying fallback...`);
+            
+            // Fallback logic
+            if (provider === 'gemini' && this.deepseek) {
+                return await this.deepseek.generateResponse(prompt);
+            } else if (provider === 'deepseek' && this.gemini) {
+                return await this.gemini.generateResponse(prompt);
+            }
         }
 
-        return "AI services are currently unavailable. Please check configuration.";
+        return "AI services are currently unavailable or hit an error. Please check logs.";
     }
 }

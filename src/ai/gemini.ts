@@ -26,8 +26,9 @@ export class GeminiProvider {
 
             return response.data.candidates[0].content.parts[0].text;
         } catch (error: any) {
-            logger.error(`Gemini API Error: ${error.message}`);
-            throw new Error('Failed to generate response from Gemini');
+            const errorData = error.response?.data || error.message;
+            logger.error({ err: errorData }, 'Gemini API Detailed Error:');
+            throw new Error(`Gemini Error: ${error.message}`);
         }
     }
 
