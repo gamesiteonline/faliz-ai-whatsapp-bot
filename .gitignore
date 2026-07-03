@@ -1,0 +1,7 @@
+node_modules
+dist
+data/sessions/*
+!data/sessions/.gitkeep
+.env
+logs/*.log
+*.tsbuildinfo

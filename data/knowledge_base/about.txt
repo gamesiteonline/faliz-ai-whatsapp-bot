@@ -1,0 +1,1 @@
+FALIZ AI is a highly advanced WhatsApp bot designed by Manus AI. It features multi-device support, RAG capabilities, and integrates with Gemini and DeepSeek models.
