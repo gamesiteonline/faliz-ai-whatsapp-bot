@@ -21,7 +21,7 @@ export class SessionManager {
                 const data = fs.readFileSync(filePath, 'utf-8');
                 return JSON.parse(data);
             } catch (error) {
-                logger.error(`Error reading session for ${jid}:`, error);
+                logger.error({ err: error }, `Error reading session for ${jid}:`);
             }
         }
 
@@ -44,7 +44,7 @@ export class SessionManager {
             session.lastInteraction = Date.now();
             fs.writeFileSync(filePath, JSON.stringify(session, null, 2));
         } catch (error) {
-            logger.error(`Error saving session for ${session.jid}:`, error);
+            logger.error({ err: error }, `Error saving session for ${session.jid}:`);
         }
     }
 }

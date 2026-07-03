@@ -57,7 +57,7 @@ export class MessageHandler {
 
             await socket.sendMessage(remoteJid, { text: responseText }, { quoted: msg });
         } catch (error) {
-            logger.error('Message Handling Error:', error);
+            logger.error({ err: error }, 'Message Handling Error:');
             await socket.sendMessage(remoteJid, { text: "I'm having trouble processing your request right now." });
         }
     }

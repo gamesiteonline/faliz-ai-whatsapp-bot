@@ -6,7 +6,7 @@ import makeWASocket, {
     AuthenticationState,
     AuthenticationCreds
 } from '@whiskeysockets/baileys';
-import { MongoClient } from 'mongodb';
+// import { MongoClient } from 'mongodb';
 import { Boom } from '@hapi/boom';
 import path from 'path';
 import fs from 'fs';
@@ -60,7 +60,7 @@ export class WhatsAppConnector {
                     const code = await this.socket.requestPairingCode(phoneNumber.replace(/[^0-9]/g, ''));
                     logger.info(`\n\n=== PAIRING CODE: ${code} ===\n\n`);
                 } catch (error) {
-                    logger.error('Failed to request pairing code:', error);
+                    logger.error({ err: error }, 'Failed to request pairing code:');
                 }
             }, 3000);
         }

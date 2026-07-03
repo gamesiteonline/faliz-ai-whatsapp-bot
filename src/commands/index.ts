@@ -57,7 +57,7 @@ export class CommandManager {
                 await command.execute({ socket, msg, args, remoteJid });
                 return true;
             } catch (error) {
-                logger.error(`Error executing command ${commandName}:`, error);
+                logger.error({ err: error }, `Error executing command ${commandName}:`);
                 await socket.sendMessage(remoteJid, { text: '❌ An error occurred while executing that command.' });
                 return true;
             }

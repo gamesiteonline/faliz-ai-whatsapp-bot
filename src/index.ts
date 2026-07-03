@@ -46,7 +46,7 @@ async function startBot() {
         });
 
     } catch (error) {
-        logger.error('Failed to start FALIZ AI:', error);
+        logger.error({ err: error }, 'Failed to start FALIZ AI:');
         process.exit(1);
     }
 }

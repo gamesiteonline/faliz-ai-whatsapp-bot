@@ -30,7 +30,7 @@ export class RAGManager {
 
             return relevantContext || null;
         } catch (error) {
-            logger.error('RAG Search Error:', error);
+            logger.error({ err: error }, 'RAG Search Error:');
             return null;
         }
     }
