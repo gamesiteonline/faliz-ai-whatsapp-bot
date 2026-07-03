@@ -2,6 +2,18 @@ import 'dotenv/config';
 import { WhatsAppConnector } from './connectors/whatsapp';
 import { MessageHandler } from './handlers/message';
 import logger from './utils/logger';
+import express from 'express';
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+    res.send('FALIZ AI is running!');
+});
+
+app.listen(port, () => {
+    logger.info(`Web server is listening on port ${port}`);
+});
 
 async function startBot() {
     try {
