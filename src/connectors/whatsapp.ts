@@ -17,7 +17,6 @@ export class WhatsAppConnector {
     private sessionName: string;
     private statePath: string;
     public socket: any;
-    private mongoClient?: MongoClient;
 
     constructor(sessionName: string = 'faliz-session') {
         this.sessionName = sessionName;
