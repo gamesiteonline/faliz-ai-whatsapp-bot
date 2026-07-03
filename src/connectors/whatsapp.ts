@@ -40,25 +40,38 @@ export class WhatsAppConnector {
         
         logger.info(`Using WhatsApp v${version.join('.')}, isLatest: ${isLatest}`);
 
+        const phoneNumber = process.env.PHONE_NUMBER;
+        const usePairingCode = !!phoneNumber;
+
         this.socket = makeWASocket({
             version,
-            printQRInTerminal: true,
+            printQRInTerminal: !usePairingCode,
             auth: {
                 creds: state.creds,
                 keys: makeCacheableSignalKeyStore(state.keys, logger as any),
             },
-            browser: ['FALIZ AI', 'Chrome', '1.0.0'],
+            browser: ["Ubuntu", "Chrome", "20.0.04"],
             generateHighQualityLinkPreview: true,
         });
+
+        if (usePairingCode && !this.socket.authState.creds.registered) {
+            setTimeout(async () => {
+                try {
+                    const code = await this.socket.requestPairingCode(phoneNumber.replace(/[^0-9]/g, ''));
+                    logger.info(`\n\n=== PAIRING CODE: ${code} ===\n\n`);
+                } catch (error) {
+                    logger.error('Failed to request pairing code:', error);
+                }
+            }, 3000);
+        }
 
         this.socket.ev.on('creds.update', saveCreds);
 
         this.socket.ev.on('connection.update', (update: any) => {
             const { connection, lastDisconnect, qr } = update;
 
-            if (qr) {
+            if (qr && !usePairingCode) {
                 logger.info('Scan the QR code below to connect:');
-                // QR code is automatically printed if printQRInTerminal is true
             }
 
             if (connection === 'close') {

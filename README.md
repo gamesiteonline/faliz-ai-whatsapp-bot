@@ -85,7 +85,15 @@ FALIZ AI is a production-ready, intelligent WhatsApp bot designed to provide sea
     npm start
     ```
 
-    Upon first run, a QR code will be displayed in the terminal. Scan it with your WhatsApp mobile app (Linked Devices -> Link a Device) to authenticate the bot. Alternatively, if you prefer pairing code, the bot will generate one.
+    Upon first run, a QR code will be displayed in the terminal. Scan it with your WhatsApp mobile app (Linked Devices -> Link a Device) to authenticate the bot. 
+    
+    ### Using Pairing Code (Alternative)
+    If you prefer to use a Pairing Code instead of a QR code:
+    1. Set the `PHONE_NUMBER` environment variable in your `.env` or Render settings (e.g., `628123456789`).
+    2. Start the bot.
+    3. Look at the logs for a message like `=== PAIRING CODE: XXXXXXXX ===`.
+    4. On your WhatsApp: **Settings** > **Linked Devices** > **Link a Device** > **Link with phone number instead**.
+    5. Enter the 8-digit code shown in the logs.
 
 ## Deployment (Optional)
 
