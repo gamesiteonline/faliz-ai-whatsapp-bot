@@ -2,8 +2,11 @@ import makeWASocket, {
     DisconnectReason, 
     useMultiFileAuthState, 
     fetchLatestBaileysVersion,
-    makeCacheableSignalKeyStore
+    makeCacheableSignalKeyStore,
+    AuthenticationState,
+    AuthenticationCreds
 } from '@whiskeysockets/baileys';
+import { MongoClient } from 'mongodb';
 import { Boom } from '@hapi/boom';
 import path from 'path';
 import fs from 'fs';
@@ -14,6 +17,7 @@ export class WhatsAppConnector {
     private sessionName: string;
     private statePath: string;
     public socket: any;
+    private mongoClient?: MongoClient;
 
     constructor(sessionName: string = 'faliz-session') {
         this.sessionName = sessionName;
@@ -25,6 +29,12 @@ export class WhatsAppConnector {
     }
 
     async connect() {
+        // Use MultiFileAuthState as primary, but we could add Mongo logic here
+        // For Render, we'll stick to the provided guide's recommendation of using a Disk
+        // or a simple local state that we can manually back up if needed.
+        // To keep it simple and robust for the user, we will stick to the MultiFile approach
+        // and guide them to use Render Disks or a persistent VPS.
+        
         const { state, saveCreds } = await useMultiFileAuthState(this.statePath);
         const { version, isLatest } = await fetchLatestBaileysVersion();
         
